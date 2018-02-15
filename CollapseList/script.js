@@ -1,14 +1,17 @@
 const names = {
     init: function() {
-        this.collapseListEvent();
+        this.AddEvents();
     },
-    collapseListEvent: function() {
-        //let sectionBoys = document.querySelector('.section-boys');
+    AddEvents: function() {
         let sectionBoys = document.querySelector('.h1-boys');
         sectionBoys.addEventListener('click', this.toggleDisplay);
-        //let sectionGirls = document.querySelector('.section-girls');
         let sectionGirls = document.querySelector('.h1-girls');
         sectionGirls.addEventListener('click', this.toggleDisplay);
+
+        let listItems = document.querySelectorAll('li');
+        for (let i = 0; i < listItems.length; ++i) {
+            listItems[i].addEventListener('click', this.moveListItem);
+        }
     },
     toggleDisplay: function(event) {
         const displayValue = 'block';
@@ -17,7 +20,6 @@ const names = {
         
         const upTriangle = '\u25B2';
         const downTriangle = '\u25BC';
-        //let header = event.currentTarget.querySelector('.h1-names');
         let header = event.currentTarget;
 
         if (displayValueCurrent === 'none') {
@@ -28,6 +30,17 @@ const names = {
             header.innerText = header.innerText.substring(0, header.innerText.length - 1) + downTriangle;
         }
     },
+    moveListItem: function(event) {
+        let listItem = event.target;
+        let listClasses = event.target.parentNode.classList;
+        if (listClasses.contains('unordered-list-boys')) {
+            document.querySelector('.unordered-list-boys').removeChild(listItem);
+            document.querySelector('.unordered-list-girls').appendChild(listItem);
+        } else {
+            document.querySelector('.unordered-list-girls').removeChild(listItem);
+            document.querySelector('.unordered-list-boys').appendChild(listItem);
+        }
+    }
 };
 
 document.onreadystatechange = function () {
